@@ -1,0 +1,37 @@
+{
+  "name": "sprite-bump-editor",
+  "version": "0.0.0",
+  "description": "An editor for sprite normals.",
+  "main": "lib/sbe.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "babylonjs": "^4.2.0",
+    "dom-kit": "^0.4.1",
+    "electron": "8"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cronvel/sprite-bump-editor.git"
+  },
+  "keywords": [
+    "sprite",
+    "bump",
+    "editor",
+    "normal"
+  ],
+  "author": "Cédric Ronvel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cronvel/sprite-bump-editor/issues"
+  },
+  "copyright": {
+    "title": "Sprite Bump Editor",
+    "years": [
+      2021
+    ],
+    "owner": "Cédric Ronvel"
+  }
+}

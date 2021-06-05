@@ -25,6 +25,7 @@
 */
 
 const electron = require( 'electron' ) ;
+const path = require( 'path' ) ;
 const app = electron.app ;
 const BrowserWindow = electron.BrowserWindow ;
 const crashReporter = electron.crashReporter ;
@@ -87,7 +88,8 @@ app.on( 'ready' , function() {
 	if ( devTools ) { mainWindow.openDevTools() ; }
 	
 	// and load the index.html of the app.
-	mainWindow.loadURL( 'file://' + __dirname + '/sprite-bump-editor.html' ) ;
+	var rootDir = path.dirname( __dirname ) ;
+	mainWindow.loadURL( 'file://' + rootDir + '/lib/sprite-bump-editor.html' ) ;
 	
 	// Emitted when the window is closed.
 	mainWindow.on( 'closed' , function() {

@@ -2,12 +2,13 @@
   "name": "sprite-bump-editor",
   "version": "0.0.0",
   "description": "An editor for sprite normals.",
-  "main": "lib/sbe.js",
+  "main": "lib/Editor.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "babylonjs": "^4.2.0",
+    "babylonjs-gui": "^4.2.0",
     "dom-kit": "^0.4.1",
     "electron": "8"
   },

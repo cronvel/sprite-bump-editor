@@ -10,7 +10,8 @@
     "babylonjs": "^4.2.0",
     "babylonjs-gui": "^4.2.0",
     "dom-kit": "^0.4.1",
-    "electron": "8"
+    "electron": "8",
+    "string-kit": "^0.9.12"
   },
   "scripts": {},
   "repository": {

@@ -72,12 +72,13 @@ if ( ( argPos = args.indexOf( '--dev' ) ) !== -1 ) {
 }
 
 
+
 // This method will be called when atom-shell has done everything
 // initialization and ready for creating browser windows.
 app.on( 'ready' , function() {
 	// Create the browser window.
 	mainWindow = new BrowserWindow( {
-		width: 1024 ,
+		width: 1200 , //1024 ,
 		height: 768 ,
 		webPreferences: {
 			nodeIntegration: true

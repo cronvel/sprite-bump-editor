@@ -12,6 +12,7 @@
     "dom-kit": "^0.4.1",
     "electron": "^9.4.4",
     "seventh": "^0.7.40",
+    "stream-kit": "^0.4.13",
     "string-kit": "^0.12.5"
   },
   "scripts": {},

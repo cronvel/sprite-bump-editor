@@ -11,6 +11,7 @@
     "babylonjs-gui": "^4.2.0",
     "dom-kit": "^0.4.1",
     "electron": "^9.4.4",
+    "nextgen-events": "^1.5.2",
     "seventh": "^0.7.40",
     "stream-kit": "^0.4.15",
     "string-kit": "^0.12.5"

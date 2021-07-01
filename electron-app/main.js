@@ -24,11 +24,17 @@
 	SOFTWARE.
 */
 
+"use strict" ;
+
+
+
 const electron = require( 'electron' ) ;
 const path = require( 'path' ) ;
 const app = electron.app ;
 const BrowserWindow = electron.BrowserWindow ;
 const crashReporter = electron.crashReporter ;
+
+require( './ipc.js' ) ;
 
 
 
@@ -54,11 +60,8 @@ var mainWindow = null ;
 
 
 // Quit when all windows are closed.
-app.on( 'window-all-closed' , function() {
-	if ( process.platform !== 'darwin' )
-	{
-		app.quit() ;
-	}
+app.on( 'window-all-closed' , () => {
+	if ( process.platform !== 'darwin' ) { app.quit() ; }
 } ) ;
 
 
@@ -75,13 +78,14 @@ if ( ( argPos = args.indexOf( '--dev' ) ) !== -1 ) {
 
 // This method will be called when atom-shell has done everything
 // initialization and ready for creating browser windows.
-app.on( 'ready' , function() {
+app.on( 'ready' , () => {
 	// Create the browser window.
 	mainWindow = new BrowserWindow( {
 		width: 1200 , //1024 ,
 		height: 768 ,
 		webPreferences: {
-			nodeIntegration: true
+			nodeIntegration: true ,
+			contextIsolation: false
 		}
 	} ) ;
 	
@@ -93,12 +97,11 @@ app.on( 'ready' , function() {
 	mainWindow.loadURL( 'file://' + rootDir + '/lib/sprite-bump-editor.html' ) ;
 	
 	// Emitted when the window is closed.
-	mainWindow.on( 'closed' , function() {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
+	mainWindow.on( 'closed' , () => {
+		// Dereference the window object.
+		// Usually you would store windows in an array if your app supports multi windows,
+		// this is the time // when you should delete the corresponding element.
 		mainWindow = null ;
 	} ) ;
-	
 } ) ;
 

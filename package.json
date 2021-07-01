@@ -1,6 +1,7 @@
 {
+  "private": true,
   "name": "sprite-bump-editor",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An editor for sprite normals.",
   "main": "lib/Editor.js",
   "directories": {
@@ -10,7 +11,7 @@
     "babylonjs": "^4.2.0",
     "babylonjs-gui": "^4.2.0",
     "dom-kit": "^0.4.1",
-    "electron": "^9.4.4",
+    "electron": "^13.1.4",
     "nextgen-events": "^1.5.2",
     "seventh": "^0.7.40",
     "stream-kit": "^0.4.15",

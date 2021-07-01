@@ -28,70 +28,23 @@
 
 
 
-const os = require( 'os' ) ;
-const fs = require( 'fs' ).promises ;
 const electron = require( 'electron' ) ;
-
-const string = require( 'string-kit' ) ;
-const Promise = require( 'seventh' ) ;
-
-
-
-const electronHelpers = {} ;
-module.exports = electronHelpers ;
+const ipcMain = electron.ipcMain ;
+const os = require( 'os' ) ;
 
 
 
-electronHelpers.save = async ( filePath , data ) => {
-	var buffer , filePath ;
-	
-	if ( data instanceof Blob ) {
-		buffer = Buffer.from( await data.arrayBuffer() ) ;
-	}
-	else {
-		buffer = Buffer.from( data ) ;
-	}
-
-	try {
-		await fs.writeFile( filePath , buffer ) ;
-	}
-	catch ( error ) {
-		return false ;
-	}
-
-	return true ;
-} ;
-
-
-
-electronHelpers.loadDialog = () => {
-	return electron.ipcRenderer.invoke( 'loadDialog' ) ;
-	/*
-	var userChosenPath = await electron.remote.dialog.showOpenDialog( { defaultPath: os.homedir() } ) ;
+ipcMain.handle( 'loadDialog' , async ( event , path ) => {
+	var userChosenPath = await electron.dialog.showOpenDialog( { defaultPath: os.homedir() } ) ;
 	if ( ! userChosenPath || userChosenPath.filePaths.length !== 1 ) { return ; }
 	return userChosenPath.filePaths[ 0 ] ;
-	*/
-} ;
+} ) ;
 
 
 
-electronHelpers.saveDialog = () => {
-	return electron.ipcRenderer.invoke( 'saveDialog' ) ;
-	/*
-	var userChosenPath = await electron.remote.dialog.showSaveDialog( { defaultPath: os.homedir() } ) ;
+ipcMain.handle( 'saveDialog' , async ( event , path ) => {
+	var userChosenPath = await electron.dialog.showSaveDialog( { defaultPath: os.homedir() } ) ;
 	if ( ! userChosenPath || ! userChosenPath.filePath ) { return ; }
 	return userChosenPath.filePath ;
-	*/
-} ;
-
-
-
-electronHelpers.loadImage = async ( filePath ) => {
-	var image = new Image() ;
-	image.src = filePath ;
-
-	var promise = new Promise() ;
-	image.onload = () => promise.resolve( image ) ;
-	return promise ;
-} ;
+} ) ;
 

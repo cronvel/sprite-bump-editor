@@ -1,9 +1,9 @@
 {
-  "name": "demo",
-  "main": "electron-app.js",
-  "version": "0.0.1",
-  "description": "Demo.",
+  "private": true,
+  "name": "sprite-bump-editor",
+  "version": "0.1.0",
+  "description": "An editor for sprite normals.",
+  "main": "main.js",
   "author": "Cédric Ronvel",
-  "license": "MIT",
-  "private": true
+  "license": "MIT"
 }

@@ -1,2 +1,2 @@
 #!/bin/bash
-./electron electron-app/electron-app.js --dev
+./electron electron-app/ --dev

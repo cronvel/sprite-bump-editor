@@ -32,7 +32,10 @@ const electron = require( 'electron' ) ;
 const path = require( 'path' ) ;
 const app = electron.app ;
 const BrowserWindow = electron.BrowserWindow ;
+const Menu = electron.Menu ;
+//const ipcMain = electron.ipcMain ;
 const crashReporter = electron.crashReporter ;
+const isMac = process.platform === 'darwin' ;
 
 require( './ipc.js' ) ;
 
@@ -61,7 +64,7 @@ var mainWindow = null ;
 
 // Quit when all windows are closed.
 app.on( 'window-all-closed' , () => {
-	if ( process.platform !== 'darwin' ) { app.quit() ; }
+	if ( ! isMac ) { app.quit() ; }
 } ) ;
 
 
@@ -73,6 +76,93 @@ if ( ( argPos = args.indexOf( '--dev' ) ) !== -1 ) {
 	args.splice( argPos , 1 ) ;
 	devTools = true ;
 }
+
+
+
+// Drop down menu
+const menuTemplate = [
+	... ( isMac ? [ {
+		label: app.name ,
+		submenu: [
+			{ role: 'about' } ,
+			{ type: 'separator' } ,
+			{ role: 'services' } ,
+			{ type: 'separator' } ,
+			{ role: 'hide' } ,
+			{ role: 'hideothers' } ,
+			{ role: 'unhide' } ,
+			{ type: 'separator' } ,
+			{ role: 'quit' }
+		]
+	} ] : [] ) ,
+	{
+		label: 'File' ,
+		submenu: [
+			{
+				label: 'Load image' ,
+				click: async () => {
+					if ( ! mainWindow ) { return ; }
+					mainWindow.webContents.send( 'guiLoadImage' ) ;
+				}
+			} ,
+			{ type: 'separator' } ,
+			{ role: isMac ? 'close' : 'quit' }
+		]
+	} ,
+	{
+		label: 'Edit' ,
+		submenu: [
+			{ role: 'undo' } ,
+			{ role: 'redo' } ,
+			{ type: 'separator' } ,
+			{ role: 'cut' } ,
+			{ role: 'copy' } ,
+			{ role: 'paste' } ,
+			... ( isMac ? [
+				{ role: 'pasteAndMatchStyle' } ,
+				{ role: 'delete' } ,
+				{ role: 'selectAll' } ,
+				{ type: 'separator' } ,
+				{
+					label: 'Speech' ,
+					submenu: [
+						{ role: 'startSpeaking' } ,
+						{ role: 'stopSpeaking' }
+					]
+				}
+			] : [
+				{ role: 'delete' } ,
+				{ type: 'separator' } ,
+				{ role: 'selectAll' }
+			] )
+		]
+	} ,
+	{
+		label: 'View' ,
+		submenu: [
+			{ role: 'reload' } ,
+			{ role: 'forceReload' } ,
+			{ role: 'toggleDevTools' } ,
+			{ type: 'separator' } ,
+			{ role: 'togglefullscreen' }
+		]
+	} ,
+	{
+		label: 'Help' ,
+		submenu: [
+			{
+				label: 'Bob' ,
+				click: async () => {
+					if ( ! mainWindow ) { return ; }
+					mainWindow.webContents.send( 'bob' , 'whoooooooh!' ) ;
+				}
+			}
+		]
+	}
+] ;
+
+const menu = Menu.buildFromTemplate( menuTemplate ) ;
+Menu.setApplicationMenu( menu ) ;
 
 
 
@@ -88,14 +178,14 @@ app.on( 'ready' , () => {
 			contextIsolation: false
 		}
 	} ) ;
-	
+
 	// Open dev tools?
 	if ( devTools ) { mainWindow.openDevTools() ; }
-	
+
 	// and load the index.html of the app.
 	var rootDir = path.dirname( __dirname ) ;
 	mainWindow.loadURL( 'file://' + rootDir + '/lib/sprite-bump-editor.html' ) ;
-	
+
 	// Emitted when the window is closed.
 	mainWindow.on( 'closed' , () => {
 		// Dereference the window object.

@@ -34,16 +34,18 @@ const os = require( 'os' ) ;
 
 
 
-ipcMain.handle( 'loadDialog' , async ( event , path ) => {
-	var userChosenPath = await electron.dialog.showOpenDialog( { defaultPath: os.homedir() } ) ;
+ipcMain.handle( 'loadDialog' , async ( event , options = {} ) => {
+	if ( ! options.defaultPath ) { options.defaultPath = os.homedir() ; }
+	var userChosenPath = await electron.dialog.showOpenDialog( options ) ;
 	if ( ! userChosenPath || userChosenPath.filePaths.length !== 1 ) { return ; }
 	return userChosenPath.filePaths[ 0 ] ;
 } ) ;
 
 
 
-ipcMain.handle( 'saveDialog' , async ( event , path ) => {
-	var userChosenPath = await electron.dialog.showSaveDialog( { defaultPath: os.homedir() } ) ;
+ipcMain.handle( 'saveDialog' , async ( event , options = {} ) => {
+	if ( ! options.defaultPath ) { options.defaultPath = os.homedir() ; }
+	var userChosenPath = await electron.dialog.showSaveDialog( options ) ;
 	if ( ! userChosenPath || ! userChosenPath.filePath ) { return ; }
 	return userChosenPath.filePath ;
 } ) ;

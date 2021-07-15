@@ -99,11 +99,21 @@ const menuTemplate = [
 		label: 'File' ,
 		submenu: [
 			{
+				label: 'Load project' ,
+				click: () => mainWindow.webContents.send( 'guiLoadProject' )
+			} ,
+			{
+				label: 'Save project' ,
+				click: () => mainWindow.webContents.send( 'guiSaveProject' )
+			} ,
+			{ type: 'separator' } ,
+			{
 				label: 'Load image' ,
-				click: async () => {
-					if ( ! mainWindow ) { return ; }
-					mainWindow.webContents.send( 'guiLoadImage' ) ;
-				}
+				click: () => mainWindow.webContents.send( 'guiLoadImage' )
+			} ,
+			{
+				label: 'Save image' ,
+				click: () => mainWindow.webContents.send( 'guiSaveImage' )
 			} ,
 			{ type: 'separator' } ,
 			{ role: isMac ? 'close' : 'quit' }
@@ -112,63 +122,50 @@ const menuTemplate = [
 	{
 		label: 'Edit' ,
 		submenu: [
-			{ role: 'undo' } ,
-			{ role: 'redo' } ,
+			{
+				label: 'Unselect' ,
+				click: () => mainWindow.webContents.send( 'unselect' )
+			} ,
 			{ type: 'separator' } ,
-			{ role: 'cut' } ,
-			{ role: 'copy' } ,
-			{ role: 'paste' } ,
-			... ( isMac ? [
-				{ role: 'pasteAndMatchStyle' } ,
-				{ role: 'delete' } ,
-				{ role: 'selectAll' } ,
-				{ type: 'separator' } ,
-				{
-					label: 'Speech' ,
-					submenu: [
-						{ role: 'startSpeaking' } ,
-						{ role: 'stopSpeaking' }
-					]
-				}
-			] : [
-				{ role: 'delete' } ,
-				{ type: 'separator' } ,
-				{ role: 'selectAll' }
-			] )
+			{
+				label: 'Undo' ,
+				click: () => mainWindow.webContents.send( 'undo' )
+			} ,
+			{
+				label: 'Redo' ,
+				click: () => mainWindow.webContents.send( 'redo' )
+			}
 		]
 	} ,
 	{
 		label: 'View' ,
 		submenu: [
-			{ role: 'reload' } ,
-			{ role: 'forceReload' } ,
+			{
+				label: 'Default camera' ,
+				click: () => mainWindow.webContents.send( 'resetCamera' )
+			} ,
+			{
+				label: 'Switch camera perspective' ,
+				click: () => mainWindow.webContents.send( 'switchCameraMode' )
+			} ,
+			{ type: 'separator' } ,
+			//{ role: 'reload' } , { role: 'forceReload' } ,
 			{ role: 'toggleDevTools' } ,
 			{ type: 'separator' } ,
 			{ role: 'togglefullscreen' }
-		]
-	} ,
-	{
-		label: 'Help' ,
-		submenu: [
-			{
-				label: 'Bob' ,
-				click: async () => {
-					if ( ! mainWindow ) { return ; }
-					mainWindow.webContents.send( 'bob' , 'whoooooooh!' ) ;
-				}
-			}
 		]
 	}
 ] ;
 
 const menu = Menu.buildFromTemplate( menuTemplate ) ;
-Menu.setApplicationMenu( menu ) ;
 
 
 
 // This method will be called when atom-shell has done everything
 // initialization and ready for creating browser windows.
 app.on( 'ready' , () => {
+	Menu.setApplicationMenu( menu ) ;
+
 	// Create the browser window.
 	mainWindow = new BrowserWindow( {
 		width: 1200 , //1024 ,
